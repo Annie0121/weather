@@ -72,3 +72,6 @@ async def get_daily_weather_info(request: Request):
                 # briefDescription: 3 hour per each data
                 # PoP6h: 6 hour per each data
                 # mixWeatherDescription: 3 hour per each data
+
+                # nano ~/.zshrc
+# source ~/.zshrc
