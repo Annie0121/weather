@@ -9,24 +9,6 @@ router = APIRouter()
 
 CWB_API_KEY = "CWA-32805D52-091B-4553-93D4-F60AD3936AC8" #測試用 前端可先測試後再PR刪除即可
 
-@router.get("/city_names")
-async def get_city_names():
-    try:
-        city_names = CityName.get_city_names()
-        return JSONResponse(status_code=200, content={"data": city_names})
-    except Exception as e:
-        return JSONResponse(status_code=500, content={"message": str(e)})
-
-@router.get("/{city_name}")
-async def get_towns(city_name: str):
-    try:
-        towns = CityName.get_towns(city_name)
-        if not towns:
-            return JSONResponse(status_code=404, content={"message": f"找不到 {city_name} 的鄉鎮資料"})
-        return JSONResponse(status_code=200, content={"data": towns})
-    except Exception as e:
-        return JSONResponse(status_code=500, content={"message": str(e)})
-
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
