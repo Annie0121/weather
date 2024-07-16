@@ -1,9 +1,7 @@
 from fastapi import APIRouter, FastAPI, Request
 from fastapi.staticfiles import StaticFiles
 from fastapi.responses import FileResponse
-from controllers import cityname_controller
-from controllers import weekly_weather_controller
-from controllers import cityname_controller, daily_weather_controller
+from controllers import cityname_controller, weekly_weather_controller, daily_weather_controller
 
 app = FastAPI()
 router = APIRouter()
