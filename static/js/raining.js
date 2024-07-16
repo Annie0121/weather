@@ -1,3 +1,5 @@
+//這是老師當初的檔案，我先留著，到時候真的做完，再把這個檔案刪掉就好
+
 let records=null;
 fetch("https://opendata.cwa.gov.tw/api/v1/rest/datastore/O-A0002-001?Authorization="+CWB_API_KEY).then((response)=>{
 	return response.json();
