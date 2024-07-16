@@ -1,7 +1,0 @@
-#raining{}
-#raining>.station{
-	border-bottom:1px solid #000000;padding:15px 0px;line-height:1.5rem;
-}
-#raining>.station>.name{
-	font-weight:bold;margin-bottom:5px;
-}
