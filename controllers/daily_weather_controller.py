@@ -31,28 +31,13 @@ async def get_daily_weather_info(request: Request):
                 we = raw['weatherElement']
 
                 dt = we[3]['time']
-                dailyTemperature = []
-                for n in dt:
-                    dtd = {n['dataTime']:n['elementValue'][0]["value"]}
-                    dailyTemperature.append(dtd)
-
+                dailyTemperature = [{n['dataTime']:n['elementValue'][0]["value"]} for n in dt]
                 bd = we[1]['time']
-                briefDescription = []
-                for n in bd:
-                    bdd = {n['startTime']:[n['elementValue'][0]['value']]}
-                    briefDescription.append(bdd)
-
+                briefDescription = [{n['startTime']:[n['elementValue'][0]['value']]} for n in bd]
                 Ph = we[7]['time']
-                PoP6h = []
-                for n in Ph:
-                    Phd = {n['startTime']:n['elementValue'][0]['value']}
-                    PoP6h.append(Phd)
-
+                PoP6h = [{n['startTime']:n['elementValue'][0]['value']} for n in Ph]
                 md = we[6]['time']
-                mixWeatherDescription = []
-                for n in md:
-                    mdd = {n['startTime']:n['elementValue'][0]['value']}
-                    mixWeatherDescription.append(mdd)
+                mixWeatherDescription = [{n['startTime']:n['elementValue'][0]['value']} for n in md]
 
                 processed_data = {'dailyTemperature':dailyTemperature, 'briefDescription':briefDescription, 'PoP6h':PoP6h, 'mixWeatherDescription':mixWeatherDescription}
                 location_info.append({locationName:processed_data})
@@ -66,12 +51,3 @@ async def get_daily_weather_info(request: Request):
         return JSONResponse(status_code=500, content={"message": str(e)})
     except Exception as e:
         return JSONResponse(status_code=500, content={"message": str(e)})
-
-
-                # dailyTemperature: 3 hour per each data
-                # briefDescription: 3 hour per each data
-                # PoP6h: 6 hour per each data
-                # mixWeatherDescription: 3 hour per each data
-
-                # nano ~/.zshrc
-# source ~/.zshrc
