@@ -17,7 +17,79 @@ params = {
 headers = {"Authorization": os.getenv('CWB_API_KEY')}
 
 router = APIRouter()
-@router.get("/api/weather/daily")
+@router.get("/api/weather/daily", responses={
+    200: {
+        "description": "A JSONresponse containing all of today's weather information for the city.",
+        "content": {
+            "application/json": {
+                "example": {
+                    "data": [  
+                        {'新竹縣': {'dailyTemperature': [
+                            {
+                            '2024-07-16 12:00:00': '35'
+                            },
+                            {
+                            '2024-07-16 15:00:00': '35'
+                            },
+                            {
+                            '2024-07-16 18:00:00': '32'
+                            }
+                        ],
+                        'briefDescription': [
+                            {
+                            '2024-07-16 12:00:00': [
+                                '晴'
+                            ]
+                            },
+                            {
+                            '2024-07-16 15:00:00': [
+                                '晴'
+                            ]
+                            },
+                            {
+                            '2024-07-16 18:00:00': [
+                                '晴'
+                            ]
+                            }
+                        ],
+                        'PoP6h': [
+                            {
+                            '2024-07-16 12:00:00': '20'
+                            },
+                            {
+                            '2024-07-16 18:00:00': '20'
+                            }
+                        ],
+                        'mixWeatherDescription': [
+                            {
+                            '2024-07-16 12:00:00': '晴。降雨機率 20%。溫度攝氏35度。悶熱。西北風 平均風速1-2級(每秒3公尺)。相對濕度65%。'
+                            },
+                            {
+                            '2024-07-16 15:00:00': '晴。降雨機率 20%。溫度攝氏35度。悶熱。西北風 平均風速1-2級(每秒2公尺)。相對濕度66%。'
+                            },
+                            {
+                            '2024-07-16 18:00:00': '晴。降雨機率 20%。溫度攝氏32度。悶熱。偏北風 平均風速<= 1級(每秒1公尺)。相對濕度71%。'
+                            }
+                        ]
+                        }
+                    },  {'金門縣': {'dailyTemperature':[],'briefDescription':[],'PoP6h':[],'mixWeatherDescription':[]}},
+                        {'苗栗縣': {'dailyTemperature':[],'briefDescription':[],'PoP6h':[],'mixWeatherDescription':[]}},
+                                        ]
+                                    }
+                                }
+                            }
+                        },
+                        500: {
+                            "description": "Server error.",
+                            "content": {
+                                "application/json": {
+                                    "example": {
+                                        "message": "Internal server error."
+                                    }
+                                }
+                            }
+                        }
+})
 async def get_daily_weather_info(request: Request):
     try:
         response = requests.get(url, headers=headers, params=params)
