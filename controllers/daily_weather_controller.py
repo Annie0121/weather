@@ -1,9 +1,10 @@
-# /v1/rest/datastore/F-D0047-089
 from fastapi import APIRouter, Request
 from fastapi.responses import JSONResponse
 from datetime import datetime, timedelta
 import os
 import requests
+from models.CityName import CityName
+
 
 current = datetime.now()
 current_day = current.strftime("%Y-%m-%d")
@@ -19,12 +20,13 @@ headers = {"Authorization": os.getenv('CWB_API_KEY')}
 router = APIRouter()
 @router.get("/api/weather/daily", responses={
     200: {
-        "description": "A JSONresponse containing all of today's weather information for the city.",
+        "description": "A JSONresponse containing all of today's weather information for the city. 美比資料",
         "content": {
             "application/json": {
                 "example": {
                     "data": [  
-                        {'新竹縣': {'dailyTemperature': [
+                        {'臺北市': {
+                        'dailyTemperature': [
                             {
                             '2024-07-16 12:00:00': '35'
                             },
@@ -72,8 +74,8 @@ router = APIRouter()
                             }
                         ]
                         }
-                    },  {'金門縣': {'dailyTemperature':[],'briefDescription':[],'PoP6h':[],'mixWeatherDescription':[]}},
-                        {'苗栗縣': {'dailyTemperature':[],'briefDescription':[],'PoP6h':[],'mixWeatherDescription':[]}},
+                    },  {'新北市': {'dailyTemperature':[],'briefDescription':[],'PoP6h':[],'mixWeatherDescription':[]}},
+                        {'基隆市': {'dailyTemperature':[],'briefDescription':[],'PoP6h':[],'mixWeatherDescription':[]}},
                                         ]
                                     }
                                 }
@@ -96,7 +98,7 @@ async def get_daily_weather_info(request: Request):
         if response.status_code == 200:
             data = response.json()['records']['locations'][0]['location']
 
-            location_info = []
+            location_info = {}
             for n in range(len(data)):
                 raw = data[n]
                 locationName = raw['locationName']
@@ -112,9 +114,13 @@ async def get_daily_weather_info(request: Request):
                 mixWeatherDescription = [{n['startTime']:n['elementValue'][0]['value']} for n in md]
 
                 processed_data = {'dailyTemperature':dailyTemperature, 'briefDescription':briefDescription, 'PoP6h':PoP6h, 'mixWeatherDescription':mixWeatherDescription}
-                location_info.append({locationName:processed_data})
+                location_info[locationName] = processed_data
 
-            return JSONResponse(status_code=200, content=location_info)
+            processed_data = {'dailyTemperature':dailyTemperature, 'briefDescription':briefDescription, 'PoP6h':PoP6h, 'mixWeatherDescription':mixWeatherDescription}
+            location_info[locationName] = processed_data
+            citylist = CityName.get_city_names()
+            processed_location_info = [{n:location_info[n]} for n in citylist]
+            return JSONResponse(status_code=200, content=processed_location_info)
         
         else:
             return JSONResponse(status_code=response.status_code, content=response.content.decode('utf-8'))

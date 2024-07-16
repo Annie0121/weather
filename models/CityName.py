@@ -18,3 +18,7 @@ class CityName:
       return city_towns[city_name]
     except KeyError:
       return []
+
+
+aaa = CityName.get_city_names()
+print(aaa)
