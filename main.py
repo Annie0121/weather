@@ -8,12 +8,10 @@ router = APIRouter()
 
 # 前端同仁自行調整資料存放位置
 app.mount("/static", StaticFiles(directory="static"), name="static")
-app.mount("/css", StaticFiles(directory="css"), name="css")
-app.mount("/js", StaticFiles(directory="js"), name="js")
 
 @app.get("/", include_in_schema=False)
 async def index(request: Request):
-  return FileResponse("./index.html", media_type="text/html")
+  return FileResponse("./static/index.html", media_type="text/html")
 
 
 # 後端同仁自行設定路由與 Controller 名稱
