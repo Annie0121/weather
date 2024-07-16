@@ -2,7 +2,7 @@ from fastapi import APIRouter, FastAPI, Request
 from fastapi.staticfiles import StaticFiles
 from fastapi.responses import FileResponse
 from controllers import cityname_controller # 請後端同仁自行設定路由與 Controller 名稱
-from controllers import week_weather_controller
+from controllers import weekly_weather_controller
 
 app = FastAPI()
 router = APIRouter()
@@ -19,4 +19,4 @@ async def index(request: Request):
 
 # 後端同仁自行設定路由與 Controller 名稱
 app.include_router(cityname_controller.router, tags=["cityname"], prefix="/api/v1")
-app.include_router(week_weather_controller.router, tags=["week_weather"], prefix="/api/v1")
+app.include_router(weekly_weather_controller.router, tags=["weekly_weather"], prefix="/api/v1")
