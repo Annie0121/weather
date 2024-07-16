@@ -81,16 +81,16 @@ router = APIRouter()
                                 }
                             }
                         },
-                        500: {
-                            "description": "Server error.",
-                            "content": {
-                                "application/json": {
-                                    "example": {
-                                        "message": "Internal server error."
-                                    }
-                                }
-                            }
-                        }
+    500: {
+        "description": "Server error.",
+        "content": {
+            "application/json": {
+                "example": {
+                    "message": "Internal server error."
+                }
+            }
+        }
+    }
 })
 async def get_daily_weather_info(request: Request):
     try:
