@@ -116,8 +116,6 @@ async def get_daily_weather_info(request: Request):
                 processed_data = {'dailyTemperature':dailyTemperature, 'briefDescription':briefDescription, 'PoP6h':PoP6h, 'mixWeatherDescription':mixWeatherDescription}
                 location_info[locationName] = processed_data
 
-            processed_data = {'dailyTemperature':dailyTemperature, 'briefDescription':briefDescription, 'PoP6h':PoP6h, 'mixWeatherDescription':mixWeatherDescription}
-            location_info[locationName] = processed_data
             citylist = CityName.get_city_names()
             processed_location_info = [{n:location_info[n]} for n in citylist]
             return JSONResponse(status_code=200, content=processed_location_info)
