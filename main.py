@@ -12,6 +12,10 @@ app.mount("/static", StaticFiles(directory="static"), name="static")
 async def index(request: Request):
   return FileResponse("./static/index.html", media_type="text/html")
 
+@app.get("/city", include_in_schema=False)
+async def index(request: Request):
+  return FileResponse("./static/city.html", media_type="text/html")
+
 
 # 後端同仁自行設定路由與 Controller 名稱
 app.include_router(cityname_controller.router, tags=["cityname"], prefix="/api/v1")
