@@ -16,7 +16,73 @@ CWB_API_KEY = os.getenv('CWB_API_KEY')
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
-@router.get("/weather/{city_name}/{town_name}")
+@router.get("/weather/{city_name}/{town_name}", responses={
+    200: {
+        "description": "The weather forecast for a specific city and town.",
+        "content": {
+            "application/json": {
+                "example": {
+                    "city": "臺北市",
+                    "town": "信義區",
+                    "weather": [
+                        {
+                            "startTime": "2024-07-17 00:00:00",
+                            "endTime": "2024-07-17 06:00:00",
+                            "elementName": "MaxAT",
+                            "description": "最高體感溫度",
+                            "value": "34",
+                            "measures": "攝氏度"
+                        },
+                        {
+                            "startTime": "2024-07-17 06:00:00",
+                            "endTime": "2024-07-17 18:00:00",
+                            "elementName": "UVI",
+                            "description": "紫外線指數",
+                            "value": "11",
+                            "measures": "紫外線指數"
+                        },
+                        {
+                            "startTime": "2024-07-17 00:00:00",
+                            "endTime": "2024-07-17 06:00:00",
+                            "elementName": "PoP12h",
+                            "description": "12小時降雨機率",
+                            "value": "20",
+                            "measures": "百分比"
+                        },
+                        {
+                            "startTime": "2024-07-17 00:00:00",
+                            "endTime": "2024-07-17 06:00:00",
+                            "elementName": "RH",
+                            "description": "相對濕度",
+                            "value": "81",
+                            "measures": "百分比"
+                        }
+                    ]
+                }
+            }
+        }
+    },
+    404: {
+        "description": "Not Found",
+        "content": {
+            "application/json": {
+                "example": {
+                    "message": "找不到指定的城市或鄉鎮的天氣資料"
+                }
+            }
+        }
+    },
+    500: {
+        "description": "Server error",
+        "content": {
+            "application/json": {
+                "example": {
+                    "message": "Internal server error"
+                }
+            }
+        }
+    }
+})
 async def get_weather(city_name: str, town_name: str):
     if town_name not in CityName.get_towns(city_name):
         return JSONResponse(status_code=404, content={"message": f"找不到 {city_name} 的鄉鎮 {town_name} 的天氣資料"})
@@ -83,7 +149,7 @@ async def get_weather(city_name: str, town_name: str):
             
             town_data = next((loc for loc in locations if loc["locationName"] == town_name), None)
             
-            if town_name is None:
+            if town_data is None:
                 raise HTTPException(status_code=404, detail=f"未找到 {town_name} 的天氣數據")
 
             weather_data = []
