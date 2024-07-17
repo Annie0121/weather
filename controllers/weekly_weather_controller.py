@@ -6,7 +6,6 @@ from urllib.parse import quote
 from models.CityName import CityName
 import os
 from dotenv import load_dotenv
-from collections import defaultdict
 
 router = APIRouter()
 
