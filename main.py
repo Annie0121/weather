@@ -3,6 +3,7 @@ from fastapi.staticfiles import StaticFiles
 from fastapi.responses import FileResponse
 from controllers import cityname_controller, daily_weather_controller, weekly_weather_controller
 from models.Bot import loop
+import asyncio
 
 app = FastAPI()
 running = True
@@ -22,11 +23,11 @@ app.include_router(weekly_weather_controller.router, tags=["weekly_weather"], pr
 
 @app.on_event("startup")
 async def startup_event():
-    global running
-    running = True
-    loop()
+  global running
+  running = True
+  asyncio.create_task(loop(lambda:running))
 
-@app.on_event("shutdown")  
+@app.on_event("shutdown")
 async def shutdown_event():
   global running
   running = False

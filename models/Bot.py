@@ -3,6 +3,7 @@ import json
 from datetime import datetime, timedelta
 import time
 import os
+import asyncio
 
 def fetch_info():
     try:
@@ -23,7 +24,6 @@ def fetch_info():
                 'DailyLow':data['WeatherElement']['DailyExtreme']['DailyLow']['TemperatureInfo']['AirTemperature'],
                 'visible':data['WeatherElement']['VisibilityDescription'],
             }
-            print(dd)
             return dd
         else:
             return {'status':'error','message':response.content.decode('utf-8')}
@@ -51,54 +51,47 @@ def bot_sending(msg): # pic
     message = {
         'username': 'third',
         'content': msg,
-        # 'embeds': [{'title': '定時台北氣象通知',
-        #         'image': {'url': pic}}]
+        # 'embeds': [{'title': '怎麼gif送不出去...',
+        #         'image': {'url': 'https://memes.tw/user-wtf/1721231780404.jpg'}}]
     }
     response = requests.post(webhook_url, data=json.dumps(message), headers={'Content-Type': 'application/json'})
-    print(response)
     if response.status_code == 204:
         print('204 -> Message sent successfully!')
     else:
         print(f'{response.status_code} -> {response.text}')
 
-def loop():
-    global running
-    while running:
+async def loop(running):
+    while running():
         next = get_next_turn()
         sleep_till = (next - datetime.now()).total_seconds()
-        time.sleep(sleep_till)
+        await asyncio.sleep(sleep_till)
         if running:
             raw = fetch_info()
             if raw.get('status')=='success':
                 m = f"""
-                        **現在時間：**
-                        {next}
+**現在時間：**
+{next}
 
-                        **天氣描述：**
-                        {raw['describe']}
-                        **溫  度：**
-                        {raw['temp']}
-                        **濕  度：
-                        {raw['humidity']}
-                        **雨  量：**
-                        {raw['rain']}
-                        **日照時長：**
-                        {raw['SunshineDuration']}
-                        **UV指數：**
-                        {raw['UVIndex']}
-                        **日最高溫：**
-                        {raw['DailyHigh']}
-                        **日最低溫：**
-                        {raw['DailyLow']}
-                        **能 見 度：**
-                        {raw['visible']}
+**天氣描述：**
+{raw['describe']}
+**溫  度：**
+{raw['temp']}
+**濕  度：**
+{raw['humidity']}
+**雨  量：**
+{raw['rain']}
+**日照時長：**
+{raw['SunshineDuration']}
+**UV指數：**
+{raw['UVIndex']}
+**日最高溫：**
+{raw['DailyHigh']}
+**日最低溫：**
+{raw['DailyLow']}
+**能 見 度：**
+{raw['visible']}
                     """        
             else:
-                m=f'{raw['message']}'
+                m = raw.get('message')
                 # p=''
             bot_sending(m)
-
-
-# m = "a test message from bot-3"
-# p = 'https://memes.tw/user-gif-post/1721120277577.gif'
-# p = 'https://memes.tw/user-gif-post/1721121188534.gif'
