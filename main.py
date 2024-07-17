@@ -2,6 +2,7 @@ from fastapi import FastAPI, Request
 from fastapi.staticfiles import StaticFiles
 from fastapi.responses import FileResponse
 from controllers import cityname_controller, daily_weather_controller, weekly_weather_controller
+from models.Bot import loop
 
 app = FastAPI()
 running = True
@@ -23,13 +24,7 @@ app.include_router(weekly_weather_controller.router, tags=["weekly_weather"], pr
 async def startup_event():
     global running
     running = True
-
-    # while running:
-    #     next_run = get_next_run_time()
-    #     sleep_duration = (next_run - datetime.now()).total_seconds()
-    #     await asyncio.sleep(sleep_duration)
-    #     if running:
-    #         job()
+    loop()
 
 @app.on_event("shutdown")  
 async def shutdown_event():
