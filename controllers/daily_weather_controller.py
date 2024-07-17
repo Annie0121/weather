@@ -4,6 +4,9 @@ from datetime import datetime, timedelta
 import os
 import requests
 from models.CityName import CityName
+from dotenv import load_dotenv
+
+load_dotenv()
 
 current = datetime.now()
 current_day = current.strftime("%Y-%m-%d")
