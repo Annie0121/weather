@@ -39,7 +39,7 @@ def get_next_turn():
         now.replace(hour=6, minute=0, second=0, microsecond=0),
         now.replace(hour=12, minute=0, second=0, microsecond=0),
         now.replace(hour=18, minute=0, second=0, microsecond=0),
-        now.replace(hour=22, minute=0, second=0, microsecond=0)
+        now.replace(hour=21, minute=0, second=0, microsecond=0)
     ]
     turns = [t for t in times if t > now]
     if not turns:
