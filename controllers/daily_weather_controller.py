@@ -12,7 +12,7 @@ url = "https://opendata.cwa.gov.tw/api/v1/rest/datastore/F-C0032-001"
 params = {
     "sort": "time",
     "timeFrom": f'{current_day}T00:00:00',
-    "timeTo": f"{next_day}T01:00:00",
+    # "timeTo": f"{next_day}T01:00:00",
 }
 headers = {"Authorization": os.getenv('CWB_API_KEY')}
 
