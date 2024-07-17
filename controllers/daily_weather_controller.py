@@ -17,7 +17,7 @@ params = {
 headers = {"Authorization": os.getenv('CWB_API_KEY')}
 
 router = APIRouter()
-@router.get("/api/weather/daily", responses={
+@router.get("/daily", responses={
     200: {
         "description": "A JSONresponse containing all of today's weather information for the city. 美比資料",
         "content": {
