@@ -1,10 +1,9 @@
-from fastapi import APIRouter, FastAPI, Request
+from fastapi import FastAPI, Request
 from fastapi.staticfiles import StaticFiles
 from fastapi.responses import FileResponse
 from controllers import cityname_controller, daily_weather_controller, weekly_weather_controller
 
 app = FastAPI()
-router = APIRouter()
 
 # 前端同仁自行調整資料存放位置
 app.mount("/static", StaticFiles(directory="static"), name="static")
