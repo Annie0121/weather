@@ -9,7 +9,7 @@ from models.CityName import CityName
 current = datetime.now()
 current_day = current.strftime("%Y-%m-%d")
 next_day = (current + timedelta(days=1)).strftime("%Y-%m-%d")
-url = "https://opendata.cwa.gov.tw/api/v1/rest/datastore/F-D0047-089"
+url = "https://opendata.cwa.gov.tw/api/v1/rest/datastore/F-C0032-001"
 params = {
     "sort": "time",
     "timeFrom": f'{current_day}T00:00:00',
@@ -25,62 +25,83 @@ router = APIRouter()
             "application/json": {
                 "example": {
                     "data": [  
-                        {'臺北市': {
-                        'dailyTemperature': [
-                            {
-                            '2024-07-16 12:00:00': '35'
-                            },
-                            {
-                            '2024-07-16 15:00:00': '35'
-                            },
-                            {
-                            '2024-07-16 18:00:00': '32'
-                            }
-                        ],
-                        'briefDescription': [
-                            {
-                            '2024-07-16 12:00:00': [
-                                '晴'
-                            ]
-                            },
-                            {
-                            '2024-07-16 15:00:00': [
-                                '晴'
-                            ]
-                            },
-                            {
-                            '2024-07-16 18:00:00': [
-                                '晴'
-                            ]
-                            }
-                        ],
-                        'PoP6h': [
-                            {
-                            '2024-07-16 12:00:00': '20'
-                            },
-                            {
-                            '2024-07-16 18:00:00': '20'
-                            }
-                        ],
-                        'mixWeatherDescription': [
-                            {
-                            '2024-07-16 12:00:00': '晴。降雨機率 20%。溫度攝氏35度。悶熱。西北風 平均風速1-2級(每秒3公尺)。相對濕度65%。'
-                            },
-                            {
-                            '2024-07-16 15:00:00': '晴。降雨機率 20%。溫度攝氏35度。悶熱。西北風 平均風速1-2級(每秒2公尺)。相對濕度66%。'
-                            },
-                            {
-                            '2024-07-16 18:00:00': '晴。降雨機率 20%。溫度攝氏32度。悶熱。偏北風 平均風速<= 1級(每秒1公尺)。相對濕度71%。'
-                            }
-                        ]
-                        }
-                    },  {'新北市': {'dailyTemperature':[],'briefDescription':[],'PoP6h':[],'mixWeatherDescription':[]}},
-                        {'基隆市': {'dailyTemperature':[],'briefDescription':[],'PoP6h':[],'mixWeatherDescription':[]}},
-                                        ]
-                                    }
+                        {
+                            '臺北市': {
+                            'MinT': [
+                                {
+                                'start': '2024-07-17 12:00:00',
+                                'end': '2024-07-17 18:00:00',
+                                'para': [
+                                    '33'
+                                ]
+                                },
+                                {
+                                'start': '2024-07-17 18:00:00',
+                                'end': '2024-07-18 06:00:00',
+                                'para': [
+                                    '28'
+                                ]
                                 }
+                            ],
+                            'MaxT': [
+                                {
+                                'start': '2024-07-17 12:00:00',
+                                'end': '2024-07-17 18:00:00',
+                                'para': [
+                                    '38'
+                                ]
+                                },
+                                {
+                                'start': '2024-07-17 18:00:00',
+                                'end': '2024-07-18 06:00:00',
+                                'para': [
+                                    '33'
+                                ]
+                                }
+                            ],
+                            'briefDescription': [
+                                {
+                                'start': '2024-07-17 12:00:00',
+                                'end': '2024-07-17 18:00:00',
+                                'para': [
+                                    '2',
+                                    '晴時多雲'
+                                ]
+                                },
+                                {
+                                'start': '2024-07-17 18:00:00',
+                                'end': '2024-07-18 06:00:00',
+                                'para': [
+                                    '2',
+                                    '晴時多雲'
+                                ]
+                                }
+                            ],
+                            'PoP': [
+                                {
+                                'start': '2024-07-17 12:00:00',
+                                'end': '2024-07-17 18:00:00',
+                                'para': [
+                                    '20'
+                                ]
+                                },
+                                {
+                                'start': '2024-07-17 18:00:00',
+                                'end': '2024-07-18 06:00:00',
+                                'para': [
+                                    '20'
+                                ]
+                                }
+                            ]
                             }
-                        },
+                        },  
+                        {'新北市': {'MinT':[],'MaxT':[],'briefDescription':[],'PoP':[]}},
+                        {'基隆市': {'MinT':[],'MaxT':[],'briefDescription':[],'PoP':[]}},
+                ]
+            }
+        }
+    }
+},
     500: {
         "description": "Server error.",
         "content": {
@@ -96,7 +117,7 @@ async def get_daily_weather_info(request: Request):
     try:
         response = requests.get(url, headers=headers, params=params)
         if response.status_code == 200:
-            data = response.json()['records']['locations'][0]['location']
+            data = response.json()['records']['location']
 
             location_info = {}
             for n in range(len(data)):
@@ -104,16 +125,16 @@ async def get_daily_weather_info(request: Request):
                 locationName = raw['locationName']
                 we = raw['weatherElement']
 
-                dt = we[3]['time']
-                dailyTemperature = [{n['dataTime']:n['elementValue'][0]["value"]} for n in dt]
-                bd = we[1]['time']
-                briefDescription = [{n['startTime']:[n['elementValue'][0]['value']]} for n in bd]
-                Ph = we[7]['time']
-                PoP6h = [{n['startTime']:n['elementValue'][0]['value']} for n in Ph]
-                md = we[6]['time']
-                mixWeatherDescription = [{n['startTime']:n['elementValue'][0]['value']} for n in md]
+                min = we[2]['time']
+                MinT = [{'start':n['startTime'],'end':n['endTime'],'para':[n['parameter']['parameterName']]} for n in min]
+                max = we[4]['time']
+                MaxT = [{'start':n['startTime'],'end':n['endTime'],'para':[n['parameter']['parameterName']]} for n in max]
+                wx = we[0]['time']
+                briefDescription = [{'start':n['startTime'],'end':n['endTime'],'para':[n['parameter']['parameterValue'],n['parameter']['parameterName']]} for n in wx]
+                Po = we[1]['time']
+                PoP = [{'start':n['startTime'],'end':n['endTime'],'para':[n['parameter']['parameterName']]} for n in Po]
 
-                processed_data = {'dailyTemperature':dailyTemperature, 'briefDescription':briefDescription, 'PoP6h':PoP6h, 'mixWeatherDescription':mixWeatherDescription}
+                processed_data = {'MinT':MinT, 'MaxT':MaxT, 'briefDescription':briefDescription, 'PoP':PoP}
                 location_info[locationName] = processed_data
 
             citylist = CityName.get_city_names()
