@@ -3,26 +3,76 @@
 <head>
 	<meta charset="UTF-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-	<title>雨量觀測</title>
-	<!-- 建立整體樣式指導：基礎字型、字體、基底色、標題、段落樣式等等 -->
-	<link rel="stylesheet" type="text/css" href="./static/css/index.css" />
-
+	<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <link rel="stylesheet" type="text/css" href="/static/css/index.css"/>
+    <link rel="stylesheet" type="text/css" href="/static/css/search.css"/>
+	<title>每日天氣，祝您有美好的一天！</title>
 </head>
+
 <body>
-	<h3>本日天氣</h3>
 
-	<script>
-		// 完成各縣市氣象預報功能
-		// 請使用中央氣象局公開 API 的第一個資料集 (/v1/rest/datastore/F-C0032-001)
-		// https://opendata.cwa.gov.tw/dist/opendata-swagger.html
+    <main class="main">
 
-		// 以下是我申請的 KEY 請使用無所謂，你也可以自己去中央氣象局網站申請一個
-		// https://opendata.cwa.gov.tw/index
-		const CWB_API_KEY="CWB-840CF1E7-FC59-4E06-81C9-F4BB79253855";
-	</script>
+        <scrtion class="search">
+            <div class="search__dropdown-group">
+                <label for="city">選擇縣市</label>
+                <select id="city" class="search__dropdown">
+                    <option value="" disabled selected>選擇縣市</option>
+                </select>
+            </div>
 
-	<script src="./static/js/raining.js"></script>
+            <div class="search__dropdown-group">
+                <label for="district">選擇鄉鎮</label>
+                <select id="district" class="search__dropdown">
+                    <option value="" disabled selected>請先選擇縣市</option>
+                </select>
+            </div>
+
+            <button class="button" id="button">確定</button>
+
+        </scrtion>
+
+       <section class="weather">
+
+            <h3 class="weather__title">以下為07/17-00:00 ~ 07/17-06:00的天氣資訊</h3>
+            <h3 class="weather__title">祝您有個美好的一天！</h3>
+
+            <div class="weather__container" id="weather_container">
+                
+                <div class="weather__row">
+                    <div class="weather__city-name">基隆市</div>
+                    <img src="/static/image/heart_icon.png" class="weather__icon" alt="Weather Icon">
+                    <div class="weather__chance-container">
+                        <img src="static/umbrella.png" class="weather__chance-icon" alt="Chance Icon">
+                        <div>20%</div>
+                    </div>
+                </div>
+        
+                <div class="weather__row">
+                    <div class="weather__city-name">台北市</div>
+                    <img src="/static/image/heart_icon.png" class="weather__icon" alt="Weather Icon">
+                    <div class="weather__chance-container">
+                        <img src="static/umbrella.png" class="weather__chance-icon" alt="Chance Icon">
+                        <div>20%</div>
+                    </div>
+                </div>
+
+                <div class="weather__row">
+                    <div class="weather__city-name">新北市</div>
+                    <img src="/static/image/heart_icon.png" class="weather__icon" alt="Weather Icon">
+                    <div class="weather__chance-container">
+                        <img src="static/umbrella.png" class="weather__chance-icon" alt="Chance Icon">
+                        <div>20%</div>
+                    </div>
+                </div>
+        </div>
+
+       </section>
+
+    </main>
+
+	<script src="/static/js/index.js"></script>
+    <script src="/static/js/search.js"></script>
 
 </body>
 </html>
