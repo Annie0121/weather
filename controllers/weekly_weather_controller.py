@@ -6,6 +6,7 @@ from urllib.parse import quote
 from models.CityName import CityName
 import os
 from dotenv import load_dotenv
+from collections import defaultdict
 
 router = APIRouter()
 
@@ -15,6 +16,7 @@ CWB_API_KEY = os.getenv('CWB_API_KEY')
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
+
 
 @router.get("/weather/{city_name}/{town_name}", responses={
     200: {
@@ -26,36 +28,18 @@ logger = logging.getLogger(__name__)
                     "town": "信義區",
                     "weather": [
                         {
-                            "startTime": "2024-07-17 00:00:00",
-                            "endTime": "2024-07-17 06:00:00",
+                            "date": "2024-07-18",
+                            "time": "晚上",
                             "elementName": "MaxAT",
                             "description": "最高體感溫度",
                             "value": "34",
-                            "measures": "攝氏度"
                         },
                         {
-                            "startTime": "2024-07-17 06:00:00",
-                            "endTime": "2024-07-17 18:00:00",
+                            "date": "2024-07-18",
+                            "time": "白天",
                             "elementName": "UVI",
                             "description": "紫外線指數",
                             "value": "11",
-                            "measures": "紫外線指數"
-                        },
-                        {
-                            "startTime": "2024-07-17 00:00:00",
-                            "endTime": "2024-07-17 06:00:00",
-                            "elementName": "PoP12h",
-                            "description": "12小時降雨機率",
-                            "value": "20",
-                            "measures": "百分比"
-                        },
-                        {
-                            "startTime": "2024-07-17 00:00:00",
-                            "endTime": "2024-07-17 06:00:00",
-                            "elementName": "RH",
-                            "description": "相對濕度",
-                            "value": "81",
-                            "measures": "百分比"
                         }
                     ]
                 }
@@ -152,26 +136,53 @@ async def get_weather(city_name: str, town_name: str):
             if town_data is None:
                 raise HTTPException(status_code=404, detail=f"未找到 {town_name} 的天氣數據")
 
-            weather_data = []
-
-            for element in town_data["weatherElement"]:
-                if element["elementName"] in ["MaxAT", "UVI", "PoP12h", "RH"]:
-                    for time_entry in element["time"]:
-                        forecast = {
-                            "startTime": time_entry["startTime"],
-                            "endTime": time_entry["endTime"],
-                            "elementName": element["elementName"],
-                            "description": element["description"],
-                            "value": time_entry["elementValue"][0]["value"],
-                            "measures": time_entry["elementValue"][0]["measures"]
-                        }
-                        weather_data.append(forecast)
-          
-            # logger.info(f"回應處理成功，返回數據: {town_name}")
-            return {"city": city_name,"town": town_name, "weather": weather_data}
+            return process_weather_data(town_data, city_name, town_name)
         else:
-            # logger.error(f"資料結構錯誤")
-            return JSONResponse(status_code=500, content={"message": "資料錯誤"})
+            return JSONResponse(status_code=500, content={"message": "資料結構錯誤"})
     except Exception as e:
-        # logger.error(f"處理天氣數據時出錯: {e}")
         return JSONResponse(status_code=500, content={"message": str(e)})
+
+def process_weather_data(town_data, city_name, town_name):
+    weather_data = {}
+    for element in town_data["weatherElement"]:
+        if element["elementName"] in ["MaxAT", "UVI", "PoP12h", "RH"]:
+            for time_entry in element["time"]:
+                start_time = time_entry["startTime"]
+                end_time = time_entry["endTime"]
+                date = start_time.split(" ")[0]
+
+                if start_time[11:] == "06:00:00" and end_time[11:] == "18:00:00":
+                    time_period = "白天"
+                elif start_time[11:] == "18:00:00" or end_time[11:] == "06:00:00":
+                    time_period = "晚上"
+                else:
+                    continue
+
+                key = (date, time_period)
+                if key not in weather_data:
+                    weather_data[key] = {}
+
+                value = time_entry["elementValue"][0]["value"].strip()
+                weather_data[key][element["elementName"]] = {
+                    "description": element["description"],
+                    "value": value if value else " "  # 如果值為空，使用空格(降雨機率)
+                }
+
+    # 將數據轉換格式並排序
+    sorted_weather_data = []
+    for (date, time_period), elements in sorted(weather_data.items()):
+        for element_name in ["MaxAT", "UVI", "PoP12h", "RH"]:
+            if element_name in elements:
+                sorted_weather_data.append({
+                    "date": date,
+                    "time": time_period,
+                    "elementName": element_name,
+                    "description": elements[element_name]["description"],
+                    "value": elements[element_name]["value"]
+                })
+
+    return {
+        "city": city_name,
+        "town": town_name,
+        "weather": sorted_weather_data
+    }
