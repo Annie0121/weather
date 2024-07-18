@@ -81,8 +81,8 @@ async def get_city_weekly_weather(city_name: str):
             if response.status_code == 200:
                 data = response.json()
                 return_data = arrange_weather_data(city_name, data)
-                print(return_data)
-                print(len(return_data["weather"]))
+                # print(return_data)
+                # print(len(return_data["weather"]))
                 return JSONResponse(status_code=200, content=return_data)
             elif response.status_code == 404:
                 return JSONResponse(status_code=404, content={"message": f"找不到 {city_name} 的一週天氣資料"})
