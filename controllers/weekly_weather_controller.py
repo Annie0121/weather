@@ -152,7 +152,7 @@ def process_weather_data(town_data, city_name, town_name):
 
                 if (start_time[11:] == "06:00:00" and end_time[11:] == "18:00:00") or (start_time[11:] == "12:00:00" and end_time[11:] == "18:00:00"):
                     time_period = "白天"
-                elif (start_time[11:] == "18:00:00" or end_time[11:] == "06:00:00") or (start_time[11:] == "00:00:00" and end_time[11:] == "06:00:00"):
+                elif (start_time[11:] == "18:00:00" and end_time[11:] == "06:00:00") or (start_time[11:] == "00:00:00" and end_time[11:] == "06:00:00"):
                     time_period = "晚上"
                 else:
                     continue
