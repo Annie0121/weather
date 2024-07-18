@@ -6,7 +6,7 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <link rel="stylesheet" type="text/css" href="/static/css/index.css"/>
     <link rel="stylesheet" type="text/css" href="/static/css/search.css"/>
-	<title>每日天氣，祝您有美好的一天！</title>
+	<title>關注天氣，心情美麗！</title>
 </head>
 
 <body>
@@ -14,6 +14,7 @@
     <main class="main">
 
         <scrtion class="search">
+
             <div class="search__dropdown-group">
                 <label for="city">選擇縣市</label>
                 <select id="city" class="search__dropdown">
@@ -28,43 +29,29 @@
                 </select>
             </div>
 
-            <button class="button" id="button">確定</button>
+            <div class="search__button-container">
+                <button class="button" id="button">確定</button>
+            </div>
+            
 
         </scrtion>
 
        <section class="weather">
 
-            <h3 class="weather__title">以下為07/17-00:00 ~ 07/17-06:00的天氣資訊</h3>
+            <h3 class="weather__title">以下為<span id="date_time"></span>的天氣資訊</h3>
             <h3 class="weather__title">祝您有個美好的一天！</h3>
 
             <div class="weather__container" id="weather_container">
                 
-                <div class="weather__row">
+                <!-- <div class="weather__row">
                     <div class="weather__city-name">基隆市</div>
-                    <img src="/static/image/heart_icon.png" class="weather__icon" alt="Weather Icon">
+                    <img src="https://www.cwa.gov.tw/V8/assets/img/weather_icons/weathers/svg_icon/night/02.svg" class="weather__icon" alt="Weather Icon">
                     <div class="weather__chance-container">
                         <img src="static/umbrella.png" class="weather__chance-icon" alt="Chance Icon">
                         <div>20%</div>
                     </div>
-                </div>
-        
-                <div class="weather__row">
-                    <div class="weather__city-name">台北市</div>
-                    <img src="/static/image/heart_icon.png" class="weather__icon" alt="Weather Icon">
-                    <div class="weather__chance-container">
-                        <img src="static/umbrella.png" class="weather__chance-icon" alt="Chance Icon">
-                        <div>20%</div>
-                    </div>
-                </div>
-
-                <div class="weather__row">
-                    <div class="weather__city-name">新北市</div>
-                    <img src="/static/image/heart_icon.png" class="weather__icon" alt="Weather Icon">
-                    <div class="weather__chance-container">
-                        <img src="static/umbrella.png" class="weather__chance-icon" alt="Chance Icon">
-                        <div>20%</div>
-                    </div>
-                </div>
+                </div> -->
+    
         </div>
 
        </section>

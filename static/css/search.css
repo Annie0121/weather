@@ -50,3 +50,41 @@
 .button:hover{
     background-color: #ef8821; 
 }
+
+@media(max-width:1215px){
+
+/* >search */
+
+.search{
+    display: block;
+    text-align: center;
+}
+
+.search__dropdown-group{
+    display: inline;
+    padding-right: 8px;
+}
+
+.button{
+    display: block;
+}
+
+.search__button-container{
+    display: flex;
+    justify-content: center;
+    padding-top: 15px;
+}
+}
+
+@media(max-width:600px){
+
+/* >search */
+
+.search__dropdown-group{
+    display: flex;
+    padding-right: 0px;
+    justify-content: center;
+    padding-bottom: 15px;
+}
+    
+}
