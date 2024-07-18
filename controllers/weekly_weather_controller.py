@@ -1,4 +1,4 @@
-from fastapi import APIRouter
+from fastapi import APIRouter, HTTPException
 from fastapi.responses import JSONResponse
 import requests
 import logging
@@ -130,7 +130,7 @@ async def get_weather(city_name: str, town_name: str):
             town_data = next((loc for loc in locations if loc["locationName"] == town_name), None)
             
             if town_data is None:
-                return JSONResponse(status_code=500, content={"message": "資料結構錯誤"})
+                raise HTTPException(status_code=404, detail=f"未找到 {town_name} 的天氣數據")
 
             return process_weather_data(town_data, city_name, town_name)
         else:
