@@ -81,7 +81,8 @@ async def get_city_weekly_weather(city_name: str):
             if response.status_code == 200:
                 data = response.json()
                 return_data = arrange_weather_data(city_name, data)
-                print(data)
+                # print(return_data)
+                # print(len(return_data["weather"]))
                 return JSONResponse(status_code=200, content=return_data)
             elif response.status_code == 404:
                 return JSONResponse(status_code=404, content={"message": f"找不到 {city_name} 的一週天氣資料"})
@@ -115,14 +116,22 @@ def arrange_weather_data(city_name: str, data: dict):
                         element_name = weather_element.get("elementName")
 
                         for time_data in weather_element.get("time", []):
-                            start_time = time_data.get("startTime")
-                            date, time = start_time.split(" ")
+                            start_date_time = time_data.get("startTime")
+                            start_date, start_time = start_date_time.split(" ")
+                            end_date_time = time_data.get("endTime")
+                            end_date, end_time = end_date_time.split(" ")
 
-                            weather_info = next((item for item in response["weather"] if item["date"] == date and item["time"] == ("白天" if "06:00:00" <= time < "18:00:00" else "晚上")), None)
+                            # 設定時間
+                            if start_time == "18:00:00" or (start_time == "00:00:00" and end_time == "06:00:00"):
+                                time_period = "晚上"
+                            else:
+                                time_period = "白天"
+
+                            weather_info = next((item for item in response["weather"] if item["date"] == start_date and item["time"] == time_period), None)
                             if not weather_info:
                                 weather_info = {
-                                    "date": date,
-                                    "time": "白天" if "06:00:00" <= time < "18:00:00" else "晚上",
+                                    "date": start_date,
+                                    "time": time_period,
                                     "MaxT": "",
                                     "MinT": "",
                                     "RH": "",
