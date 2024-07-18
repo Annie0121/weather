@@ -4,11 +4,13 @@ from fastapi.responses import FileResponse
 from controllers import cityname_controller, daily_weather_controller, weekly_weather_controller, weekly_city_weather_controller
 from models.Bot import loop
 import asyncio
+from models.auth_middleware import AuthMiddleware 
 
 app = FastAPI()
 running = True
 
 # 前端同仁自行調整資料存放位置
+app.add_middleware(AuthMiddleware)
 app.mount("/static", StaticFiles(directory="static"), name="static")
 
 @app.get("/", include_in_schema=False)
