@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" type="text/css" href="/static/css/search.css"/>
     <link rel="stylesheet" type="text/css" href="/static/css/district.css"/>
-    <title>Document</title>
+    <title>鄉鎮資料</title>
 </head>
 <body>
     
@@ -40,14 +40,13 @@
 
         </scrtion>
 
-    
-
-    <!-- 分隔線！ -->
-
 
         <div class="info" >
             <div class="info_week" id="topic"></div>
-            <table style="margin-top: 20px;">
+
+
+            <!-- >桌機大小，才呈現的區塊 -->
+            <table style="margin-top: 20px;" id="weather_table"> 
 
                 <tr id="date_container">
                     <td class="title">日期</td>
@@ -60,12 +59,20 @@
                 <tr id="chance_container">
                     <td class="title">12小時降雨機率</td>
                 </tr>
+
                 <tr id="wet_container">
                     <td class="title">平均相對濕度</td>
                 </tr>
-
+                
             </table>
+
         </div>
+
+
+        <!-- >手機與平板大小，才呈現的區塊 -->
+        <div id="weather_container" class="weather-container"></div>
+
+
 
     </main>
 

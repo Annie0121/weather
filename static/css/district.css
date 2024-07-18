@@ -41,8 +41,7 @@
 }
 
 
-
-/* !! 慧倫原本的CSS */
+/* > 慧倫自己原本寫的CSS */
 .info{
     margin: 20px auto;
     width: 900px;
@@ -97,4 +96,59 @@ th, td {
 .title{
     background-color: #0f69a0;;
     color:white;
+}
+
+
+/* >針對手機與平板才顯示的區塊設定 */
+
+.weather-container {
+    display:none;
+    margin-top: 20px;
+    width: 90%;
+    
+}
+
+.weather-block {
+    border: 2px solid rgba(94, 88, 88, 0.629);
+    border-radius: 5px;
+    padding: 10px;
+    margin-bottom: 20px;
+    width: 100%;
+    max-width: 200px;
+    background-color: #f9f9f9;
+}
+
+.weather-item {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 5px;
+}
+
+.weather-label {
+    font-weight: bold;
+    color: #0f69a0;
+}
+
+.weather-value {
+    color: #333;
+}
+
+
+@media (max-width: 1200px) {
+
+    .info{
+        display: flex;
+        justify-content: center;
+        width: 100%;
+    }
+
+    .weather-container {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .weather-block {
+        width: 90%;
+        max-width: 450px;
+    }
 }
