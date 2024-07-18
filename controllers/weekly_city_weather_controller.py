@@ -81,8 +81,8 @@ async def get_city_weekly_weather(city_name: str):
             if response.status_code == 200:
                 data = response.json()
                 return_data = arrange_weather_data(city_name, data)
-                # print(return_data)
-                # print(len(return_data["weather"]))
+                print(return_data)
+                print(len(return_data["weather"]))
                 return JSONResponse(status_code=200, content=return_data)
             elif response.status_code == 404:
                 return JSONResponse(status_code=404, content={"message": f"找不到 {city_name} 的一週天氣資料"})
@@ -122,8 +122,10 @@ def arrange_weather_data(city_name: str, data: dict):
                             end_date, end_time = end_date_time.split(" ")
 
                             # 設定時間
-                            if start_time == "18:00:00" or (start_time == "00:00:00" and end_time == "06:00:00"):
+                            if start_time == "18:00:00" and end_time == "06:00:00":
                                 time_period = "晚上"
+                            elif start_time == "00:00:00" and end_time == "06:00:00" :
+                                time_period = "半夜"
                             else:
                                 time_period = "白天"
 
