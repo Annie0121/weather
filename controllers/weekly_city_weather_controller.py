@@ -140,6 +140,6 @@ def arrange_weather_data(city_name: str, data: dict):
                             elif element_name == "Wx":
                                 weather_info["Wx"] = element_value
                             elif element_name == "PoP12h":
-                                weather_info["PoP12h"] = element_value + "%"
+                                weather_info["PoP12h"] = "-" if element_value == " " else element_value + "%"
 
     return response
