@@ -18,17 +18,17 @@ body{
 
 .main{
     width: 900px;
+    padding: 30px;
+    margin-block: 25px;
+    background-color: #fff;
+
+    border-radius: 20px;
+    box-shadow: rgba(0, 0, 0, 0.4) 0px 30px 90px;
+
     display: flex;
     flex-direction: column;
     align-items: center;
     gap:30px;
-    background-color: #fff;
-
-    padding: 15px;
-    border-radius: 20px;
-
-    /* margin-inline: auto;
-    margin-block: 40px; */
 }
 
 
@@ -44,6 +44,9 @@ body{
 
 .weather__title{
     color: #555;
+    font-size: 18px;
+    letter-spacing: 1px;
+    text-align: center;
 }
 
 
@@ -51,7 +54,7 @@ body{
     display: grid;
     grid-template-columns: 1fr 1fr;
     width: 100%;
-    gap:10px;
+    gap:15px;
 }
 
 
@@ -59,9 +62,12 @@ body{
     display: flex;
     align-items: center;
     justify-content: space-around;
+
     border: 1px solid #ccc;
     border-radius: 4px;
     box-shadow: rgba(0, 0, 0, 0.18) 0px 2px 4px;
+
+    cursor: pointer;
 }
 
 .weather__chance-container{
@@ -86,19 +92,36 @@ body{
 }
 
 
-
-
-
 /* >RWD */
 
 @media(max-width:1215px){
 
-    /* >手機+平板模式時，隱藏上下滾動條，避免那15px的寬度影響畫面 */
-    body::-webkit-scrollbar{ 
-        display: none;
-    }
-    
+/* >手機+平板模式時，隱藏上下滾動條，避免那15px的寬度影響畫面 */
+body::-webkit-scrollbar{ 
+    display: none;
+}
+
+/* >main */
+
+.main{
+    width: 80%;
+}
+
 }
     
     
-@media(max-width:600px){}
+@media(max-width:600px){
+
+/* >main */
+
+.main{
+    width: 70%;
+}
+
+/* >Weather */
+
+.weather__container{
+    grid-template-columns: 1fr;
+}
+
+}
