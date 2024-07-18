@@ -26,7 +26,7 @@ API_URL = "https://opendata.cwa.gov.tw/api/v1/rest/datastore/F-D0047-091"
                             "MaxT":"34",
                             "MinT":"29",
                             "RH":"64",
-                            "Wx":"多雲午後短暫雷陣雨",
+                            "Wx":"04",
                             "PoP12h":"59%"
                         },
                         {
@@ -35,7 +35,7 @@ API_URL = "https://opendata.cwa.gov.tw/api/v1/rest/datastore/F-D0047-091"
                             "MaxT":"34",
                             "MinT":"29",
                             "RH":"64",
-                            "Wx":"多雲午後短暫雷陣雨",
+                            "Wx":"02",
                             "PoP12h":"59%"
                         }
                     ]
@@ -81,6 +81,7 @@ async def get_city_weekly_weather(city_name: str):
             if response.status_code == 200:
                 data = response.json()
                 return_data = arrange_weather_data(city_name, data)
+                print(data)
                 return JSONResponse(status_code=200, content=return_data)
             elif response.status_code == 404:
                 return JSONResponse(status_code=404, content={"message": f"找不到 {city_name} 的一週天氣資料"})
@@ -138,7 +139,7 @@ def arrange_weather_data(city_name: str, data: dict):
                             elif element_name == "RH":
                                 weather_info["RH"] = element_value
                             elif element_name == "Wx":
-                                weather_info["Wx"] = element_value
+                                weather_info["Wx"] = time_data.get("elementValue", [{}])[1].get("value")
                             elif element_name == "PoP12h":
                                 weather_info["PoP12h"] = "-" if element_value == " " else element_value + "%"
 
