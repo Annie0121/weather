@@ -91,10 +91,14 @@ button.addEventListener("click",function(){
     const selected_district=document.querySelector("#district").value;
 
     if (!selected_city){
-        alert("選城市喔！") //++這邊的處理上可以在畫面優化一下！
+        alert("請選擇選縣市^^我們才能提供更詳細的資料喔！") 
         return
     }
 
-    window.location.href = '/city';
-    // ++這邊改成要轉跳畫面＋呼叫會輪到時候寫好的函式（記得import)
+    console.log("這是使用者點擊城市區塊選擇的城市",selected_city)
+    console.log("這是使用者點擊城市區塊選擇的區域",selected_district)
+
+
+    window.location.href = `/city/${selected_city}/${selected_district}`
+    
 })
