@@ -142,7 +142,7 @@ def process_weather_data(town_data, city_name, town_name):
     weather_data = {}
     for element in town_data["weatherElement"]:
         if element["elementName"] in ["MaxAT", "PoP12h", "RH"]:
-            for time_entry in element["time"]:
+            for time_entry in element["time"][1:]:
                 start_time = time_entry["startTime"]
                 end_time = time_entry["endTime"]
                 date = "-".join(start_time.split(" ")[0].split("-")[1:])
