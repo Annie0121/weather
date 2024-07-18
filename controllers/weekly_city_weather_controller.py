@@ -81,7 +81,6 @@ async def get_city_weekly_weather(city_name: str):
             if response.status_code == 200:
                 data = response.json()
                 return_data = arrange_weather_data(city_name, data)
-                print (data)
                 return JSONResponse(status_code=200, content=return_data)
             elif response.status_code == 404:
                 return JSONResponse(status_code=404, content={"message": f"找不到 {city_name} 的一週天氣資料"})
@@ -131,17 +130,16 @@ def arrange_weather_data(city_name: str, data: dict):
                                 }
                                 response["weather"].append(weather_info)
 
-                                element_value = time_data.get("elementValue", [{}])[0].get("value")
-                                if element_name == "MaxT":
-                                    weather_info["MaxT"] = element_value
-                                elif element_name == "MinT":
-                                    weather_info["MinT"] = element_value
-                                elif element_name == "RH":
-                                    weather_info["RH"] = element_value
-                                elif element_name == "Wx":
-                                    weather_info["Wx"] = element_value
-                                elif element_name == "PoP12h":
-                                    weather_info["PoP12h"] = "-" if element_value == " " else element_value + "%"
-
+                            element_value = time_data.get("elementValue", [{}])[0].get("value")
+                            if element_name == "MaxT":
+                                weather_info["MaxT"] = element_value
+                            elif element_name == "MinT":
+                                weather_info["MinT"] = element_value
+                            elif element_name == "RH":
+                                weather_info["RH"] = element_value
+                            elif element_name == "Wx":
+                                weather_info["Wx"] = element_value
+                            elif element_name == "PoP12h":
+                                weather_info["PoP12h"] = element_value + "%"
 
     return response
