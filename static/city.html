@@ -6,9 +6,19 @@
     <title>city</title>
     <link rel="stylesheet" type="text/css" href="/static/css/city.css" />
     <link rel="stylesheet" type="text/css" href="/static/css/search.css"/>
+    
 </head>
 <body>
     <!--搜尋欄-->
+    <div class="nav-bar-div">
+        <div class="nav-bar-title-div">
+          <p class="bar_title" id="title">氣象小幫手</p>
+        </div>
+    </div>
+    
+    
+    
+
     <scrtion class="search" style="margin-top: 100px;">
         <div class="search__dropdown-group">
             <label for="city">選擇縣市</label>
@@ -24,7 +34,9 @@
             </select>
         </div>
 
-        <button class="button" id="button">確定</button>
+        <div class="search__button-container">
+            <button class="button" id="button">確定</button>
+        </div>
 
     </scrtion>
 
@@ -69,9 +81,9 @@
     </div>
 
     <!--一周預報-->
-    <div class="info" >
+    <div class="info">
         <div class="info_week">一周預報</div>
-        <table style="margin-top: 20px;" >
+        <table style="margin-top: 20px;">
             <tr>
                 <td class="title">0</td>
                 <td class="title">1</td>
@@ -102,16 +114,13 @@
                 <td></td>
                 <td></td>
             </tr>
-          
-        
-        
-            
-            
         </table>
     </div>
-    
+
+
     
     <script src="/static/js/search.js"></script>
     <script src="/static/js/city.js"></script>
+    <script src="/static/js/bar.js"></script>
 </body>
 </html>
