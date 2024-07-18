@@ -4,6 +4,7 @@ from datetime import datetime, timedelta
 import time
 import os
 import asyncio
+import pytz
 
 def fetch_info():
     try:
@@ -34,7 +35,8 @@ def fetch_info():
         return {"message": str(e)}
 
 def get_next_turn():
-    now = datetime.now()
+    raw_utc = datetime.now(pytz.utc)
+    now = raw_utc.astimezone(pytz.timezone('Asia/Taipei')).replace(tzinfo=None)
     times = [
         now.replace(hour=6, minute=0, second=0, microsecond=0),
         now.replace(hour=12, minute=0, second=0, microsecond=0),
@@ -50,9 +52,10 @@ def bot_sending(msg): # pic
     webhook_url = 'https://discord.com/api/webhooks/1162404320399085690/y6pNTIyURc4-ftZIicqF49uzwNTF70bRw_9D1QyVrmxzbwagnXXX-HNW2E6QvzUJVUVS'
     message = {
         'username': 'third',
-        'content': msg,
-        # 'embeds': [{'title': '怎麼gif送不出去...',
-        #         'image': {'url': 'https://memes.tw/user-wtf/1721231780404.jpg'}}]
+        'embeds': [{# 'title': '收工灑花',
+                    "description": msg,
+                    "color": 7506394,
+                    'image': {'url': 'https://megapx-assets.dcard.tw/images/b4ed942a-38b6-47d4-9c7f-edc58da41252/full.gif'}}]
     }
     response = requests.post(webhook_url, data=json.dumps(message), headers={'Content-Type': 'application/json'})
     if response.status_code == 204:
@@ -65,33 +68,23 @@ async def loop(running):
         next = get_next_turn()
         sleep_till = (next - datetime.now()).total_seconds()
         await asyncio.sleep(sleep_till)
-        if running:
+        if running():
             raw = fetch_info()
             if raw.get('status')=='success':
                 m = f"""
-**現在時間：**
+**🕒 現在時間：**
 {next}
 
-**天氣描述：**
-{raw['describe']}
-**溫  度：**
-{raw['temp']}
-**濕  度：**
-{raw['humidity']}
-**雨  量：**
-{raw['rain']}
-**日照時長：**
-{raw['SunshineDuration']}
-**UV指數：**
-{raw['UVIndex']}
-**日最高溫：**
-{raw['DailyHigh']}
-**日最低溫：**
-{raw['DailyLow']}
-**能 見 度：**
-{raw['visible']}
-                    """        
+**🌤️ 天氣描述：**{raw['describe']}
+**🌡️ 溫 度：**{raw['temp']}
+**💧 濕 度：**{raw['humidity']}
+**🌧️ 雨 量：**{raw['rain']}
+**☀️ 日照時長：**{raw['SunshineDuration']}
+**🌞 UV指數：**{raw['UVIndex']}
+**🔺 日最高溫：**{raw['DailyHigh']}
+**🔻 日最低溫：**{raw['DailyLow']}
+**👁️ 能見度：**{raw['visible']}
+                    """
             else:
                 m = raw.get('message')
-                # p=''
             bot_sending(m)
