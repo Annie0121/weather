@@ -131,16 +131,17 @@ def arrange_weather_data(city_name: str, data: dict):
                                 }
                                 response["weather"].append(weather_info)
 
-                            element_value = time_data.get("elementValue", [{}])[0].get("value")
-                            if element_name == "MaxT":
-                                weather_info["MaxT"] = element_value
-                            elif element_name == "MinT":
-                                weather_info["MinT"] = element_value
-                            elif element_name == "RH":
-                                weather_info["RH"] = element_value
-                            elif element_name == "Wx":
-                                weather_info["Wx"] = element_value
-                            elif element_name == "PoP12h":
-                                weather_info["PoP12h"] = element_value + "%" if element_value else "-"
+                                element_value = time_data.get("elementValue", [{}])[0].get("value")
+                                if element_name == "MaxT":
+                                    weather_info["MaxT"] = element_value
+                                elif element_name == "MinT":
+                                    weather_info["MinT"] = element_value
+                                elif element_name == "RH":
+                                    weather_info["RH"] = element_value
+                                elif element_name == "Wx":
+                                    weather_info["Wx"] = element_value
+                                elif element_name == "PoP12h":
+                                    weather_info["PoP12h"] = "-" if element_value == " " else element_value + "%"
+
 
     return response
