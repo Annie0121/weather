@@ -6,7 +6,7 @@ from models.Bot import loop
 import asyncio
 from models.auth_middleware import AuthMiddleware 
 
-app = FastAPI()
+app = FastAPI(strict_slashes=False)
 running = True
 
 # 前端同仁自行調整資料存放位置
