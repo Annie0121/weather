@@ -125,7 +125,13 @@ function renderTable(records) {
         for (let i = 1; i < 14; i++) {
             renderWeatherData(tableCells, weatherIndex[i], records[i - 1]);
         }
-    } else {
+    } else if (records[0].time === "半夜") {
+        // render 扣除半夜的，剩下的 14 筆資料
+        for (let i = 0; i < 14; i++) {
+            renderWeatherData(tableCells, weatherIndex[i], records[i + 1]);
+        }
+    }
+    else {
         // render  14 筆資料
         for (let i = 0; i < 14; i++) {
             renderWeatherData(tableCells, weatherIndex[i], records[i]);

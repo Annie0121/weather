@@ -122,8 +122,10 @@ def arrange_weather_data(city_name: str, data: dict):
                             end_date, end_time = end_date_time.split(" ")
 
                             # 設定時間
-                            if start_time == "18:00:00" or (start_time == "00:00:00" and end_time == "06:00:00"):
+                            if start_time == "18:00:00" and end_time == "06:00:00":
                                 time_period = "晚上"
+                            elif start_time == "00:00:00" and end_time == "06:00:00" :
+                                time_period = "半夜"
                             else:
                                 time_period = "白天"
 
