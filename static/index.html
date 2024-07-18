@@ -11,54 +11,50 @@
 
 <body>
 
-    <main class="main">
+    <div class="bacground_image">
 
-        <scrtion class="search">
-
-            <div class="search__dropdown-group">
-                <label for="city">選擇縣市</label>
-                <select id="city" class="search__dropdown">
-                    <option value="" disabled selected>選擇縣市</option>
-                </select>
+        <div class="nav-bar-div">
+            <div class="nav-bar-title-div">
+                <p class="title" id="title">氣象小幫手</p>
             </div>
-
-            <div class="search__dropdown-group">
-                <label for="district">選擇鄉鎮</label>
-                <select id="district" class="search__dropdown">
-                    <option value="" disabled selected>請先選擇縣市</option>
-                </select>
-            </div>
-
-            <div class="search__button-container">
-                <button class="button" id="button">確定</button>
-            </div>
-            
-
-        </scrtion>
-
-       <section class="weather">
-
-            <h3 class="weather__title">以下為<span id="date_time"></span>的天氣資訊</h3>
-            <h3 class="weather__title">祝您有個美好的一天！</h3>
-
-            <div class="weather__container" id="weather_container">
-                
-                <!-- 記得刪除 -->
-                <!-- <div class="weather__row">
-                    <div class="weather__city-name">基隆市</div>
-                    <img src="https://www.cwa.gov.tw/V8/assets/img/weather_icons/weathers/svg_icon/night/02.svg" class="weather__icon" alt="Weather Icon">
-                    <div class="weather__chance-container">
-                        <img src="static/umbrella.png" class="weather__chance-icon" alt="Chance Icon">
-                        <div>20%</div>
-                    </div>
-                    <div class="weather__tooltip">晴時多雲，降雨機率10%，請點此進入基隆市網頁看詳細天氣內容。</div>
-                </div> -->
+        </div>
     
-            </div>
+        <main class="main">
+    
+            <scrtion class="search">
+    
+                <div class="search__dropdown-group">
+                    <label for="city">選擇縣市</label>
+                    <select id="city" class="search__dropdown">
+                        <option value="" disabled selected>選擇縣市</option>
+                    </select>
+                </div>
+    
+                <div class="search__dropdown-group">
+                    <label for="district">選擇鄉鎮</label>
+                    <select id="district" class="search__dropdown">
+                        <option value="" disabled selected>請先選擇縣市</option>
+                    </select>
+                </div>
+    
+                <div class="search__button-container">
+                    <button class="button" id="button">確定</button>
+                </div>
+                
+            </scrtion>
+    
+           <section class="weather">
+    
+                <h3 class="weather__title">以下為<span id="date_time"></span>的天氣資訊</h3>
+                <h3 class="weather__title">祝您有個美好的一天！</h3>
+    
+                <div class="weather__container" id="weather_container"></div>
+    
+           </section>
+    
+        </main>
 
-       </section>
-
-    </main>
+    </div>
 
 	<script src="/static/js/index.js"  type="module"></script>
     <script src="/static/js/search.js" type="module"></script>
