@@ -1,6 +1,20 @@
 let weather_container=document.querySelector("#weather_container");
 let date_time=document.querySelector("#date_time")
 
+// >監聽事件：畫面一載入就呼叫左上角logo的函式
+document.addEventListener("DOMContentLoaded", function () {
+    backToMainPage();
+  });
+
+
+// 函式：點擊左上角logo就能回到首頁
+function backToMainPage() {
+    const titleElement = document.getElementById("title");
+    titleElement.addEventListener("click", function () {
+    window.location.href = "/";
+});
+}
+
 
 // >監聽事件：網頁Load完後，就向後端取得
 document.addEventListener("DOMContentLoaded",function(){
@@ -11,9 +25,6 @@ document.addEventListener("DOMContentLoaded",function(){
         else {throw new Error("API request failed")}
     })
     .then(data => {
-        
-
-        console.log("後端取回的，最原始的資料",data)
 
         // >1.呼叫渲染畫面日期與時間的函式
         render_date_time(data)
@@ -22,7 +33,6 @@ document.addEventListener("DOMContentLoaded",function(){
         // >2.透過迴圈，將每筆城市資料單獨做後續處理
         data.forEach(city_data => {
             
-            console.log(city_data)
 
             // >因後端資料結構的關係，先取得每筆資料的key值，也就是縣市名稱
             let city_name=Object.keys(city_data)[0]; 
@@ -41,7 +51,6 @@ document.addEventListener("DOMContentLoaded",function(){
 
                 const selected_city=row.querySelector(".weather__city-name").textContent.trim();
 
-                console.log("這是使用者點擊城市區塊選擇的城市",selected_city)
                 window.location.href = `/city/${selected_city}`
             })
         })
@@ -88,10 +97,6 @@ function render_date_time(data){
 
 // >函式：專門生成22個縣市，HTML區塊架構的函式
 function create_weather_row(city_name,city_data){
-
-    console.log("產生ＨＴＭＬ架構的函式",city_data)
-    // console.log(city_data[city_name].briefDescription[0].para[0])
-    // console.log(city_data[city_name].PoP[0].para[0])
 
     // >建立『最外層』的div
     let new_weather_row=document.createElement("div");

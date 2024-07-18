@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="/static/css/search.css"/>
+    <link rel="stylesheet" type="text/css" href="/static/css/district.css"/>
+    <title>Document</title>
+</head>
+<body>
+    
+    <div class="nav-bar-div">
+        <div class="nav-bar-title-div">
+            <p class="nav-bar-title" id="title">氣象小幫手</p>
+        </div>
+    </div>
+
+
+
+    <main class="main">
+
+        <scrtion class="search" style="margin-top: 100px;">
+            <div class="search__dropdown-group">
+                <label for="city">選擇縣市</label>
+                <select id="city" class="search__dropdown">
+                    <option value="" disabled selected>選擇縣市</option>
+                </select>
+            </div>
+    
+            <div class="search__dropdown-group">
+                <label for="district">選擇鄉鎮</label>
+                <select id="district" class="search__dropdown">
+                    <option value="" disabled selected>請先選擇縣市</option>
+                </select>
+            </div>
+
+            <div class="search__button-container">
+                <button class="button" id="button">確定</button>
+            </div>
+
+        </scrtion>
+
+    
+
+    <!-- 分隔線！ -->
+
+
+        <div class="info" >
+            <div class="info_week" id="topic"></div>
+            <table style="margin-top: 20px;">
+
+                <tr id="date_container">
+                    <td class="title">日期</td>
+                </tr>
+
+                <tr id="temperature_container">
+                    <td class="title">最高體感溫度</td>
+                </tr>
+
+                <tr id="chance_container">
+                    <td class="title">12小時降雨機率</td>
+                </tr>
+                <tr id="wet_container">
+                    <td class="title">平均相對濕度</td>
+                </tr>
+
+            </table>
+        </div>
+
+    </main>
+
+    <script src="/static/js/search.js"></script>
+    <script src="/static/js/district.js"></script>
+</body>
+</html>
