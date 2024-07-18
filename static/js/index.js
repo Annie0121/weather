@@ -33,16 +33,31 @@ document.addEventListener("DOMContentLoaded",function(){
 
         })
 
-        // >3.透過迴圈，針對每個城市方塊建立點擊的監聽事件
+        // >3.透過迴圈，針對每個城市方塊建立『點擊』＆『滑鼠移入』的監聽事件
         let all_weather_rows=document.querySelectorAll(".weather__row");
         
         all_weather_rows.forEach(row => {
-            row.addEventListener("click",function(event){
+            row.addEventListener("click",function(){
 
                 const selected_city=row.querySelector(".weather__city-name").textContent.trim();
-                window.location.href = '/city';
-                // ++這邊改成要轉跳畫面＋呼叫跟傳遞參數給慧倫到時候寫好的函式（記得import)
+
+                console.log("這是使用者點擊城市區塊選擇的城市",selected_city)
+                window.location.href = `/city/${selected_city}`
             })
+        })
+
+
+        all_weather_rows.forEach(row => {
+
+            row.addEventListener('mousemove',function(event){
+                const weather_tooltip=row.querySelector('.weather__tooltip');
+                const mouse_x=event.clientX;
+                const mouse_y=event.clientY;
+                
+                weather_tooltip.style.left=`${mouse_x+10}px`;
+                weather_tooltip.style.top=`${mouse_y+10}px`;
+            });
+
         })
     })
     .catch(error => {console.error(error)})
@@ -74,7 +89,7 @@ function render_date_time(data){
 // >函式：專門生成22個縣市，HTML區塊架構的函式
 function create_weather_row(city_name,city_data){
 
-    // console.log(city_data)
+    console.log("產生ＨＴＭＬ架構的函式",city_data)
     // console.log(city_data[city_name].briefDescription[0].para[0])
     // console.log(city_data[city_name].PoP[0].para[0])
 
@@ -123,8 +138,18 @@ function create_weather_row(city_name,city_data){
 
     // >將『放置雨傘圖示+濕度』的容器div加入『最外層』的div，並回傳
     new_weather_row.appendChild(new_chance_container);
-    return new_weather_row
 
+
+
+    // >建立『小提示語』得div
+    let weather_brief_description=city_data[city_name].briefDescription[0].para[1]; // >取得天氣簡短文字描述，EX:"晴時多雲"
+    let new_tooltip_text=document.createElement("div");
+    new_tooltip_text.classList.add("weather__tooltip");
+    new_tooltip_text.textContent=`${weather_brief_description}，降雨機率${chance_string}%，請點此進入${city_name}網頁看詳細天氣內容。`
+
+    new_weather_row.appendChild(new_tooltip_text);
+
+    return new_weather_row
 }
 
 

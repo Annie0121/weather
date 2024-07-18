@@ -15,9 +15,17 @@ app.mount("/static", StaticFiles(directory="static"), name="static")
 async def index(request: Request):
   return FileResponse("./static/index.html", media_type="text/html")
 
-@app.get("/city", include_in_schema=False)
-async def index(request: Request):
-  return FileResponse("./static/city.html", media_type="text/html")
+
+@app.get("/city/{city}", include_in_schema=False)
+async def index_without_district(request: Request, city: str):
+    return FileResponse("./static/city.html", media_type="text/html")
+
+
+@app.get("/city/{city}/{district}", include_in_schema=False)
+async def index_with_district(request: Request, city: str, district: str):
+    return FileResponse("./static/district.html", media_type="text/html")
+
+
 
 
 # 後端同仁自行設定路由與 Controller 名稱
