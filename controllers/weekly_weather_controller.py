@@ -147,28 +147,33 @@ def process_weather_data(town_data, city_name, town_name):
                 end_time = time_entry["endTime"]
                 date = "-".join(start_time.split(" ")[0].split("-")[1:])
 
-                if (start_time[11:] == "18:00:00" and end_time[11:] == "06:00:00") or (start_time[11:] == "00:00:00" and end_time[11:] == "06:00:00"):
-                    time_period = "晚上"
-                else:
-                    continue
+                is_night_time = (
+                    (start_time[11:] == "18:00:00" and end_time[11:] == "06:00:00") or 
+                    (start_time[11:] == "00:00:00" and end_time[11:] == "06:00:00")
+                )
+                
+                is_new_data = (
+                    date not in weather_data or 
+                    not any(item["elementName"] == element["elementName"] for item in weather_data[date])
+                )
 
-                if date not in weather_data:
-                    weather_data[date] = []
+                if is_night_time and is_new_data:
+                    if date not in weather_data:
+                        weather_data[date] = []
 
-                value = time_entry["elementValue"][0]["value"].strip()
-                weather_data[date].append({
-                    "time": time_period,
-                    "elementName": element["elementName"],
-                    "description": element["description"],
-                    "value": value if value else " "  # 如果值為空，使用空格(降雨機率)
-                })
+                    value = time_entry["elementValue"][0]["value"].strip()
+                    weather_data[date].append({
+                        "time": "晚上",
+                        "elementName": element["elementName"],
+                        "description": element["description"],
+                        "value": value if value else " "  # 如果值為空，使用空格（降雨機率）
+                    })
+                
     # 將數據轉換格式並排序
-    sorted_weather_data = []
-    for date, details in sorted(weather_data.items()):
-        sorted_weather_data.append({
-            "date": date,
-            "details": details
-        })
+    sorted_weather_data = [
+        {"date": date, "details": details}
+        for date, details in sorted(weather_data.items())
+    ]
 
     return {
         "city": city_name,
