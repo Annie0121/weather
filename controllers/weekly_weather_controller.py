@@ -27,18 +27,15 @@ logger = logging.getLogger(__name__)
                     "town": "信義區",
                     "weather": [
                         {
-                            "date": "2024-07-18",
-                            "time": "晚上",
-                            "elementName": "MaxAT",
-                            "description": "最高體感溫度",
-                            "value": "34",
-                        },
-                        {
-                            "date": "2024-07-18",
-                            "time": "白天",
-                            "elementName": "UVI",
-                            "description": "紫外線指數",
-                            "value": "11",
+                            "date": "07-18",
+                            "details": [
+                                {
+                                    "time": "晚上",
+                                    "elementName": "MaxAT",
+                                    "description": "最高體感溫度",
+                                    "value": "34"
+                                }
+                            ]
                         }
                     ]
                 }
@@ -102,7 +99,7 @@ async def get_weather(city_name: str, town_name: str):
     endpoint = city_to_api_endpoint[city_name]
     params = {
         "Authorization": CWB_API_KEY,
-        "elementName": "MaxAT,UVI,PoP12h,RH",
+        "elementName": "MaxAT,PoP12h,RH",
         "locationName": town_name
     }
     
@@ -144,41 +141,34 @@ async def get_weather(city_name: str, town_name: str):
 def process_weather_data(town_data, city_name, town_name):
     weather_data = {}
     for element in town_data["weatherElement"]:
-        if element["elementName"] in ["MaxAT", "UVI", "PoP12h", "RH"]:
+        if element["elementName"] in ["MaxAT", "PoP12h", "RH"]:
             for time_entry in element["time"]:
                 start_time = time_entry["startTime"]
                 end_time = time_entry["endTime"]
-                date = start_time.split(" ")[0]
+                date = "-".join(start_time.split(" ")[0].split("-")[1:])
 
-                if (start_time[11:] == "06:00:00" and end_time[11:] == "18:00:00") or (start_time[11:] == "12:00:00" and end_time[11:] == "18:00:00"):
-                    time_period = "白天"
-                elif (start_time[11:] == "18:00:00" and end_time[11:] == "06:00:00") or (start_time[11:] == "00:00:00" and end_time[11:] == "06:00:00"):
+                if (start_time[11:] == "18:00:00" and end_time[11:] == "06:00:00") or (start_time[11:] == "00:00:00" and end_time[11:] == "06:00:00"):
                     time_period = "晚上"
                 else:
                     continue
 
-                key = (date, time_period)
-                if key not in weather_data:
-                    weather_data[key] = {}
+                if date not in weather_data:
+                    weather_data[date] = []
 
                 value = time_entry["elementValue"][0]["value"].strip()
-                weather_data[key][element["elementName"]] = {
+                weather_data[date].append({
+                    "time": time_period,
+                    "elementName": element["elementName"],
                     "description": element["description"],
                     "value": value if value else " "  # 如果值為空，使用空格(降雨機率)
-                }
-
+                })
     # 將數據轉換格式並排序
     sorted_weather_data = []
-    for (date, time_period), elements in sorted(weather_data.items()):
-        for element_name in ["MaxAT", "UVI", "PoP12h", "RH"]:
-            if element_name in elements:
-                sorted_weather_data.append({
-                    "date": date,
-                    "time": time_period,
-                    "elementName": element_name,
-                    "description": elements[element_name]["description"],
-                    "value": elements[element_name]["value"]
-                })
+    for date, details in sorted(weather_data.items()):
+        sorted_weather_data.append({
+            "date": date,
+            "details": details
+        })
 
     return {
         "city": city_name,
