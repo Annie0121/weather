@@ -1,0 +1,130 @@
+.city_weather{
+    height:200px ;
+    width: 900px;
+    margin: 40px auto;
+    display: flex;
+    
+}
+.city_weather_first{
+    height: 200px;
+    width: 250px;
+    background-color: rgba(177, 174, 174, 0.237);
+    border-radius: 25px;
+    text-align: center;
+    
+}
+.city_weather_second{
+    height: 200px;
+    width: 250px;
+    background-color: rgba(177, 174, 174, 0.237);
+    margin-left: 75px;
+    border-radius: 25px;
+    text-align: center;
+}
+.city_weather_third{
+    height: 200px;
+    width: 250px;
+    background-color: rgba(177, 174, 174, 0.237);
+    margin-left: 75px;
+    border-radius: 25px;
+    text-align: center;
+}
+.info{
+    margin: 20px auto;
+    width: 900px;
+}
+.info_week{
+    width: 300px; 
+    border-radius: 5px;   
+    background-color: rgb(7, 152, 168);
+    color:white;
+    font-size: 20px;
+    font-weight: 500 ;
+    height: 45px; 
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+table {
+    border-collapse: collapse;
+    width: 900px;
+}
+  
+th, td {
+    border: 2px solid rgba(94, 88, 88, 0.629);
+    text-align: center;
+    font-size: 17px;
+    
+    
+}
+.toptime{
+    margin-top: 10px;
+    font-size: 25px;
+    font-weight: 700;
+} 
+.topdegree{
+    margin-top: 10px;
+    font-size: 18px;
+    font-weight: 500;
+}
+.toppop{
+    margin-top: 5px;
+    font-size: 18px;
+    font-weight: 500;
+}
+.weekpic{
+    height: 60PX;
+    width: 60PX;
+    margin-top: 5px;
+}
+.weekdegree{
+    font-size: 16px;
+}
+.title{
+    background-color: rgb(7, 152, 168);
+    color:white;
+    font-weight: 700;
+}
+@media  (max-width: 1000px) {
+   .info{
+    width:90%;
+    margin-left: 10px;
+    
+   }
+   table{
+    width: 100%;
+   }
+   .city_weather{
+    width: 90%;
+    margin-left: 10px;
+   }
+   .info_week{
+    width:35% ;
+    height:35px ;
+   }
+}
+@media(max-width: 760px){
+.city_weather_first{
+    width: 90%;
+    margin: 10px auto;
+}
+.city_weather_second{
+    width: 90%;
+    margin: 10px auto;
+    
+}
+.city_weather_third{
+    width: 90%;
+    margin: 10px auto;
+    
+}
+.city_weather{
+    width: 90%;
+    flex-wrap: wrap;
+    height: 650px;
+}
+.toptime{
+    font-size: 20px;
+}
+
+}
