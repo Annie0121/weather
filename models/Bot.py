@@ -35,8 +35,7 @@ def fetch_info():
         return {"message": str(e)}
 
 def get_next_turn():
-    raw_utc = datetime.now(pytz.utc)
-    now = raw_utc.astimezone(pytz.timezone('Asia/Taipei')).replace(tzinfo=None)
+    now = datetime.now(pytz.utc).astimezone(pytz.timezone('Asia/Taipei')).replace(tzinfo=None)
     times = [
         now.replace(hour=6, minute=0, second=0, microsecond=0),
         now.replace(hour=12, minute=0, second=0, microsecond=0),
@@ -66,7 +65,8 @@ def bot_sending(msg): # pic
 async def loop(running):
     while running():
         next = get_next_turn()
-        sleep_till = (next - datetime.now()).total_seconds()
+        now = datetime.now(pytz.utc).astimezone(pytz.timezone('Asia/Taipei')).replace(tzinfo=None)
+        sleep_till = (next - now).total_seconds()
         await asyncio.sleep(sleep_till)
         if running():
             raw = fetch_info()
